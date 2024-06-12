@@ -6,7 +6,7 @@ pipeline {
             steps {
                 script {
                     // Build the Docker image
-                    sh "docker build -t my-python-app:${env.BUILD_ID} ."
+                    bat "docker build -t my-python-app:${env.BUILD_ID} ."
                 }
             }
         }
@@ -15,7 +15,7 @@ pipeline {
             steps {
                 script {
                     // Run the Docker container
-                    sh "docker run -d --name my-python-app-${env.BUILD_ID} my-python-app:${env.BUILD_ID}"
+                    bat "docker run -d --name my-python-app-${env.BUILD_ID} my-python-app:${env.BUILD_ID}"
                 }
             }
         }
@@ -35,5 +35,3 @@ pipeline {
         }
     }
 }
-
-

@@ -1,0 +1,58 @@
+pipeline {
+    agent any
+
+    environment {
+        // Define any environment variables if needed
+    }
+
+    stages {
+        stage('Clone repository') {
+            steps {
+                // Checkout the source code
+                git 'https://github.com/yourusername/my-python-app.git'
+            }
+        }
+
+        stage('Build Docker image') {
+            steps {
+                script {
+                    // Build the Docker image
+                    def app = docker.build("my-python-app:${env.BUILD_ID}")
+                }
+            }
+        }
+
+        stage('Run Docker container') {
+            steps {
+                script {
+                    // Run the Docker container
+                    def app = docker.build("my-python-app:${env.BUILD_ID}")
+                    app.run('-d') // Adjust as needed for port mapping or other options
+                }
+            }
+        }
+
+        stage('Cleanup') {
+            steps {
+                script {
+                    // Optionally remove the Docker image after use
+                    docker.image("my-python-app:${env.BUILD_ID}").remove()
+                }
+            }
+        }
+    }
+
+    post {
+        always {
+            // Clean up workspace after the build
+            cleanWs()
+        }
+        success {
+            echo 'The build succeeded!'
+        }
+        failure {
+            echo 'The build failed!'
+        }
+    }
+}
+

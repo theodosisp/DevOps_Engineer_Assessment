@@ -2,12 +2,12 @@ pipeline {
     agent any
 
     stages {
-        stage('Clone repository') {
-            steps {
+        //stage('Clone repository') {
+          //  steps {
                 // Checkout the source code
-                git 'https://github.com/theodosisp/DevOps_Engineer_Assessment.git'
-            }
-        }
+            //    git 'https://github.com/theodosisp/DevOps_Engineer_Assessment.git'
+           // }
+       // }
 
         stage('Build Docker image') {
             steps {

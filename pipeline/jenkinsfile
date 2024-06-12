@@ -6,7 +6,8 @@ pipeline {
             steps {
                 script {
                     // Build the Docker image
-                    bat "docker build -t my-python-app:${env.BUILD_ID} ."
+                    bat """pwd
+		    docker build -t my-python-app:${env.BUILD_ID} ."""
                 }
             }
         }

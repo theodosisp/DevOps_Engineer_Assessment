@@ -9,4 +9,5 @@ spec:
     - protocol: TCP
       port: 90
       targetPort: 90
-  type: LoadBalancer
+      nodePort: 32100
+  type: NodePort

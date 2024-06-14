@@ -154,27 +154,6 @@ This document outlines the steps to complete the DevOps Engineer assessment. The
 2. **Configure Traefik Ingress:**
    - Create an `IngressRoute` for your deployment.
 
-### 8. Security Precautions
-1. **Restrict Access:**
-   - Configure network policies to restrict access to specific IPs.
-   - Example Network Policy:
-     ```yaml
-     apiVersion: networking.k8s.io/v1
-     kind: NetworkPolicy
-     metadata:
-       name: allow-specific-ips
-       namespace: default
-     spec:
-       podSelector:
-         matchLabels:
-           app: hello-world
-       policyTypes:
-       - Ingress
-       ingress:
-       - from:
-         - ipBlock:
-             cidr: <your_ip>/32
-     ```
 
 ## Conclusion
-Following these steps, you will set up a CI/CD pipeline using Jenkins, Dockerize a Python app, deploy it on a Kubernetes cluster, and manage the deployment with ArgoCD. Ensure security by restricting access to specific IPs.
+Following these steps, you will set up a CI/CD pipeline using Jenkins, Dockerize a Python app, deploy it on a Kubernetes cluster, and manage the deployment with ArgoCD. 

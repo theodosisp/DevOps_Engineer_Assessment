@@ -17,12 +17,14 @@ This document outlines the steps to complete the DevOps Engineer assessment. The
 ## Steps
 
 ### 1. Spin up a Jenkins instance
-1. **Install Jenkins:**
-   - Download Jenkins from the [official website](https://www.jenkins.io/download/).
-   - Install Jenkins using the installer.
-   - Start Jenkins using PowerShell:
+1. **Start Jenkins using Docker:**
+   - Pull the Jenkins Docker image:
      ```sh
-     java -jar jenkins.war
+     docker pull jenkins/jenkins:lts
+     ```
+   - Start Jenkins container:
+     ```sh
+     docker run -d -p 8080:8080 -p 50000:50000 --name jenkins -v jenkins_home:/var/jenkins_home jenkins/jenkins:lts
      ```
    - Access Jenkins at `http://localhost:8080`.
 

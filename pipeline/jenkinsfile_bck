@@ -1,0 +1,38 @@
+pipeline {
+    agent any
+
+    stages {
+        stage('Build Docker image') {
+            steps {
+                script {
+                    // Build the Docker image
+                    bat """pwd
+		    docker build -t my-python-app:${env.BUILD_ID} ."""
+                }
+            }
+        }
+
+        stage('Run Docker container') {
+            steps {
+                script {
+                    // Run the Docker container
+                    bat "docker run -d --name my-python-app-${env.BUILD_ID} my-python-app:${env.BUILD_ID}"
+                }
+            }
+        }
+
+    }
+
+    post {
+        always {
+            // Clean up workspace after the build
+            cleanWs()
+        }
+        success {
+            echo 'The build succeeded!'
+        }
+        failure {
+            echo 'The build failed!'
+        }
+    }
+}

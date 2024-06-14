@@ -1,13 +1,19 @@
 pipeline {
     agent any
 
+    environment {
+        DOCKERHUB_CREDENTIALS = credentials('dockerhub-credentials') // Ensure this ID matches your stored credentials ID
+        DOCKERHUB_REPO = 'theodosp9/mypyapp'
+        DOCKERHUB_TAG = 'latest'
+    }
+
     stages {
         stage('Build Docker image') {
             steps {
                 script {
                     // Build the Docker image
                     bat """pwd
-		    docker build -t my-python-app:${env.BUILD_ID} ."""
+                    docker build -t my-python-app:${env.BUILD_ID} ."""
                 }
             }
         }
@@ -21,6 +27,32 @@ pipeline {
             }
         }
 
+        stage('Login to DockerHub') {
+            steps {
+                script {
+                    // Login to DockerHub
+                    bat "docker login -u ${DOCKERHUB_CREDENTIALS_USR} -p ${DOCKERHUB_CREDENTIALS_PSW}"
+                }
+            }
+        }
+
+        stage('Tag Docker image') {
+            steps {
+                script {
+                    // Tag the Docker image
+                    bat "docker tag my-python-app:${env.BUILD_ID} ${DOCKERHUB_REPO}:${DOCKERHUB_TAG}"
+                }
+            }
+        }
+
+        stage('Push Docker image') {
+            steps {
+                script {
+                    // Push the Docker image to DockerHub
+                    bat "docker push ${DOCKERHUB_REPO}:${DOCKERHUB_TAG}"
+                }
+            }
+        }
     }
 
     post {
@@ -36,3 +68,4 @@ pipeline {
         }
     }
 }
+
